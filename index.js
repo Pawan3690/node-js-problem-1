@@ -1,31 +1,28 @@
 
 const http = require('http');
-// const fs = require("fs");
 const url = require('url');
 
-// var adr = 'http://localhost:8080/age?year=1998&month=11&date=23&name=John';
+http.createServer(function (req, res) {
+  const queryObject = url.parse(req.url,true).query;
 
-// var q = url.parse(adr, true).query;
-
-
-
- http.createServer( (req, res) => {
-    if (req.url == "/age?year=1998&month=11&date=23&name=John") {
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write(" Hello Mr.John " );
-
-        res.end("<p> You are currently 22 year old</p>");
-        
-    }
-    //  else {
-    // res.writeHead(200, {'Content-Type': 'text/html'});
-    // var txt = q.year + " " + q.month + " " + q.day;
-    // app.get()
-    // res.write("The date and time are currently:" + "txt" );
-    res.end()
-// };
-  }).listen(8080)
-
+console.log(queryObject.date+"/"+queryObject.month+'/'+queryObject.year);
+  let date = queryObject.date+"/"+queryObject.month+'/'+queryObject.year;
+  console.log(date);
+  
+  
+     // convert user input value into date object
+	 let  birthDate = new Date(date);
+	 
+	 // get difference from current date;
+	 let difference=Date.now() - birthDate; 
+	 	 console.log("diff "+difference);
+	 let  ageDate = new Date(difference); 
+   console.log("age "+ageDate);
+	 let calculatedAge=   Math.abs(ageDate.getUTCFullYear() - 1970);
+   console.log(calculatedAge);
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.end(`Welcome ${queryObject.name} your age is ${calculatedAge}`);
+}).listen(4321);
 
 
 
